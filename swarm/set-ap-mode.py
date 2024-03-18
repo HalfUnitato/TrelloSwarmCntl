@@ -29,16 +29,21 @@ def set_ap(ssid, password, address):
     """
 
     s = get_socket()
+
     cmd = 'command'
     print(f'sending cmd {cmd}')
+    s.sendto(cmd.encode('utf-8'), address)
+    response, ip = s.recvfrom(100)
+    print(f'from {ip}: {response}')
 
+    cmd = f'sn?'
+    print(f'sending cmd {cmd}')
     s.sendto(cmd.encode('utf-8'), address)
     response, ip = s.recvfrom(100)
     print(f'from {ip}: {response}')
 
     cmd = f'ap {ssid} {password}'
     print(f'sending cmd {cmd}')
-
     s.sendto(cmd.encode('utf-8'), address)
     response, ip = s.recvfrom(100)
     print(f'from {ip}: {response}')

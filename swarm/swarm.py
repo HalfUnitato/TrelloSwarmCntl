@@ -139,19 +139,13 @@ class Swarm(object):
         self.tellos = []
         self.pools = []
         self.sn2ip = {
-            '0TQZGANED0021X': '192.168.3.101',
-            '0TQZGANED0020C': '192.168.3.103',
-            '0TQZGANED0023H': '192.168.3.104'
+            '0TQZK4BCNT1YSH': '192.168.x.y',
         }
         self.id2sn = {
-            0: '0TQZGANED0021X',
-            1: '0TQZGANED0020C',
-            2: '0TQZGANED0023H'
+            0: '0TQZK4BCNT1YSH',
         }
         self.ip2id = {
-            '192.168.3.101': 0,
-            '192.168.3.103': 1,
-            '192.168.3.104': 2
+            '192.168.x.y': 0,
         }
 
     def start(self):
@@ -246,9 +240,10 @@ class Swarm(object):
         :param command: Command.
         :return: None.
         """
-        n_tellos = int(command.partition('scan')[2])
+        n_tellos = int(command.split()[1])
 
-        self.manager.find_avaliable_tello(n_tellos)
+        print(command.split())
+        self.manager.find_avaliable_tello(n_tellos, command.split()[2])
         self.tellos = self.manager.get_tello_list()
         self.pools = SwarmUtil.create_execution_pools(n_tellos)
 

@@ -64,13 +64,15 @@ class TelloManager(object):
         self.last_response_index = {}
         self.str_cmd_index = {}
 
-    def find_avaliable_tello(self, num):
+    def find_avaliable_tello(self, num, ip_net):
         """
         Find Tellos.
         :param num: Number of Tellos to search.
+        :param ip_net: ip_area to search eg. '192.168.32.'
         :return: None
         """
-        possible_ips = self.get_possible_ips()
+        
+        possible_ips = self.get_possible_ips(ip_net)
 
         print(f'[SEARCHING], Searching for {num} from {len(possible_ips)} possible IP addresses')
 
@@ -89,7 +91,7 @@ class TelloManager(object):
                 cmd_id = len(self.log[ip])
                 self.log[ip].append(Stats('command', cmd_id))
 
-                # print(f'{iters}: sending command to {ip}:8889')
+                print(f'{iters}: sending command to {ip}:8889')
 
                 try:
                     self.socket.sendto(b'command', (ip, 8889))
@@ -106,14 +108,14 @@ class TelloManager(object):
             temp[ip] = self.log[ip]
         self.log = temp
 
-    def get_possible_ips(self):
+    def get_possible_ips(self, ip_net):
         """
         Gets all the possible IP addresses for subnets that the computer is a part of.
         :return: List of IP addresses.
         """
         infos = self.get_subnets()
         ips = SubnetInfo.flatten([info.get_ips() for info in infos])
-        ips = list(filter(lambda ip: ip.startswith('192.168.3.'), ips))
+        ips = list(filter(lambda ip: ip.startswith(ip_net), ips))
         return ips
 
     def get_subnets(self):

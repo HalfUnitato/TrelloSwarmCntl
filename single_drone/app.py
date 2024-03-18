@@ -5,6 +5,7 @@ import sys
 from datetime import datetime
 import time
 import argparse
+import os
 
 def parse_args(args):
     """
@@ -45,6 +46,10 @@ def start(file_name):
 
             else:
                 tello.send_command(command)
+
+    if not os.path.isdir("log"):
+        os.makedirs("log")
+
 
     with open(f'log/{start_time}.txt', 'w') as out:
         log = tello.get_log()

@@ -1,23 +1,22 @@
 command
 
+battery?
+
+delay 1
 takeoff
 
 delay 5
 
-flip f
+left 20
 
 delay 2
 
-flip b
-
-delay 2
-
-flip b
-
-delay 2
+right 20
 
 flip f
 
 delay 3
+
+battery?
 
 land
