@@ -6,3 +6,7 @@
 # Log
 
 ´log/´
+
+# Details
+
+Using drones default ip-addr '192.168.10.1', port '8889'

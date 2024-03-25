@@ -1,3 +1,3 @@
-scan 1 192.168.32.
+scan 1192.168.32.
 battery_check 20
 correct_ip

@@ -138,9 +138,9 @@ class Swarm(object):
         self.manager = TelloManager()
         self.tellos = []
         self.pools = []
+        self.ip2poolid = {} # cmd = 'scan'
         self.sn2ip = {} # cmd = 'correct_ip'
         self.id2sn = {} # cmd = '='
-        self.ip2id = {} # cmd = 'scan'
 
     def start(self):
         """
@@ -236,12 +236,12 @@ class Swarm(object):
         """
         n_tellos = int(command.split()[1])
 
-        self.manager.find_avaliable_tello(n_tellos, command.split()[2])
+        self.manager.find_avaliable_tello(n_tellos, command.split()[2] if len(command.split()) > 2 else '')
         self.tellos = self.manager.get_tello_list()
         self.pools = SwarmUtil.create_execution_pools(n_tellos)
 
         for x, (tello, pool) in enumerate(zip(self.tellos, self.pools)):
-            self.ip2id[tello.tello_ip] = x
+            self.ip2poolid[tello.tello_ip] = x
 
             t = Thread(target=SwarmUtil.drone_handler, args=(tello, pool))
             t.daemon = True
@@ -262,17 +262,17 @@ class Swarm(object):
         if id == '*':
             id_list = [t for t in range(len(self.tellos))]
         else:
-            id_list.append(int(id)-1) 
+            id_list.append(int(id)) 
         
         action = str(command.partition('>')[2])
 
         for tello_id in id_list:
             sn = self.id2sn[tello_id]
             ip = self.sn2ip[sn]
-            id = self.ip2id[ip]
+            poolid = self.ip2poolid[ip]
 
-            self.pools[id].put(action)
-            print(f'[ACTION] SN = {sn}, IP = {ip}, ID = {id}, ACTION = {action}')
+            self.pools[poolid].put(action)
+            print(f'[ACTION] SN = {sn}, IP = {ip}, ID = {poolid}, ACTION = {action}')
 
     def _handle_battery_check(self, command):
         """
