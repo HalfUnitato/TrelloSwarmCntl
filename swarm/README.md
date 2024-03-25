@@ -15,14 +15,15 @@ after that Trello will reboot and connect to the new WiFi-network
 
 ## Controlled Flight
 
-´python planned-flight.py -f cmds-01.txt´
+´python planned-flight.py -f cmd_files/cmds-01.txt´
 
 ## Reset WiFi
 
 1. turn the TELLO on until its flashing yellow rapidly
-2. ress and hold the power button for 5-8s until the led goes off
+2. press and hold the power button for 5-8s until the led goes off
 3. then reconnect after it auto rebooting
-4. edit the cmis-xx.txt file to your needs
+
+## Cmd-Files
 
 ```bash
 # scan for available drenes

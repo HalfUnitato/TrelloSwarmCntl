@@ -138,15 +138,9 @@ class Swarm(object):
         self.manager = TelloManager()
         self.tellos = []
         self.pools = []
-        self.sn2ip = {
-            '0TQZK4BCNT1YSH': '192.168.x.y',
-        }
-        self.id2sn = {
-            0: '0TQZK4BCNT1YSH',
-        }
-        self.ip2id = {
-            '192.168.x.y': 0,
-        }
+        self.sn2ip = {} # cmd = 'correct_ip'
+        self.id2sn = {} # cmd = '='
+        self.ip2id = {} # cmd = 'scan'
 
     def start(self):
         """
@@ -242,7 +236,6 @@ class Swarm(object):
         """
         n_tellos = int(command.split()[1])
 
-        print(command.split())
         self.manager.find_avaliable_tello(n_tellos, command.split()[2])
         self.tellos = self.manager.get_tello_list()
         self.pools = SwarmUtil.create_execution_pools(n_tellos)
